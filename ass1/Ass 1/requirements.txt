@@ -1,0 +1,6 @@
+jupyter==1.0.0
+gymnasium==0.28.1
+matplotlib==3.7.1
+pandas==1.5.3
+scipy==1.9.3
+tqdm==4.65.0
