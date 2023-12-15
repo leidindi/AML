@@ -15,6 +15,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 from scipy import stats
 from tqdm.notebook import tqdm  # For progress bars
+import pickle 
 
 # %matplotlib inline
 # Constants defining the environment
@@ -531,8 +532,8 @@ def run_episode(env: Environment,
 
 # TO BE FILLED.
 
-alpha = [0.01, 0.001, 0.1]
-gamma = [0.95, 0.85, 0.75]
+alpha = [0.001, 0.01, 0.1]
+gamma = [0.75, 0.95, 0.85]
 num_runs = 5
 agents = [SARSAAgent, QAgent]
 epsilon = 1e-2
@@ -542,13 +543,16 @@ for a in alpha:
     for g in gamma:
         for agent in agents:
             for num in range(num_runs):
-                if agent is type(SARSAAgent):
+                if agent is SARSAAgent:
                     agent_name = "SARSAAgent"
                 else:
                     agent_name = "QAgent"
                 data[f'{agent_name}_a{a}_g{g}_v{num}'] = [agent(a, g, epsilon),[]]
                 
-num_episodes = 3000
+num_episodes = 25000
+
+# Specify the file name to save the dictionary
+file_name = 'my_dict.pkl'
 
 for agent_name, agent_object in data.items():
     print(agent_name)
@@ -565,7 +569,15 @@ for agent_name, agent_object in data.items():
         end_state, total_reward, animation_data = run_episode(env, agent_object[0], start_state, is_learning=True, is_rendering=True)
         agent_object[1].append(total_reward)
     
+    # Open the file in binary write mode and save the dictionary using pickle.dump()
+    with open(file_name, 'wb') as file:
+        pickle.dump(data, file)
+
+    print(f"Dictionary saved to '{file_name}'")
     agent_object[0].plot_state_values()
     agent_object[0].plot_q_values(skip=1)
     render_epoch(animation_data, interval=100)
-    
+
+
+
+
