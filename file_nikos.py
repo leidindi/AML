@@ -542,7 +542,7 @@ Q_optimal_agent.plot_q_values(skip=1)
 #random_agent = RAgent(alpha=1.,gamma=1.,epsilon=1.)
 
 env = Environment()
-start_state = (200,200)
+start_state = (200,120)
 start_state = env.reset(state=start_state)
 
 env.state=start_state
