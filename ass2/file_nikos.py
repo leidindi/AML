@@ -515,7 +515,10 @@ def run_episode(env: Environment,
         
         # Execute the learning and update the state and action
         # TO BE FILLED (1 point)
-        next_action = agent.learn(state=current_state, action=current_action, next_state=next_state, reward=reward, done=done)
+        if is_learning:
+            next_action = agent.learn(state=current_state, action=current_action, next_state=next_state, reward=reward, done=done)
+        else:
+            next_action = agent.select_action(state=current_state, use_greedy_strategy=is_greedy)
         current_state = next_state
         current_action = next_action
 
@@ -539,7 +542,7 @@ Q_optimal_agent.plot_q_values(skip=1)
 #random_agent = RAgent(alpha=1.,gamma=1.,epsilon=1.)
 
 env = Environment()
-start_state = (200,200)
+start_state = (200,120)
 start_state = env.reset(state=start_state)
 
 env.state=start_state
