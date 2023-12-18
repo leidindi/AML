@@ -515,7 +515,10 @@ def run_episode(env: Environment,
         
         # Execute the learning and update the state and action
         # TO BE FILLED (1 point)
-        next_action = agent.learn(state=current_state, action=current_action, next_state=next_state, reward=reward, done=done)
+        if is_learning:
+            next_action = agent.learn(state=current_state, action=current_action, next_state=next_state, reward=reward, done=done)
+        else:
+            next_action = agent.select_action(state=current_state, use_greedy_strategy=is_greedy)
         current_state = next_state
         current_action = next_action
 
