@@ -524,6 +524,41 @@ def run_episode(env: Environment,
     agent.last_action = None
     return current_state, total_reward, animation_data
 
+
+
+filepath = 'C:/Users/lazar/OneDrive/Υπολογιστής/test/final_dict.pkl'
+with open(filepath, 'rb') as file:
+    data = pickle.load(file)
+
+
+SARSAA_optimal_agent = data['SARSAAgent_a0.01_g0.95_v0'][0]
+SARSAA_optimal_agent.plot_state_values()
+SARSAA_optimal_agent.plot_q_values(skip=1)
+Q_optimal_agent = data['QAgent_a0.01_g0.95_v0'][0]
+Q_optimal_agent.plot_q_values(skip=1)
+#random_agent = RAgent(alpha=1.,gamma=1.,epsilon=1.)
+
+env = Environment()
+start_state = (200,200)
+start_state = env.reset(state=start_state)
+
+env.state=start_state
+end_state, total_reward, animation_data1 = run_episode(env, SARSAA_optimal_agent, start_state, is_learning=False, is_rendering=True)
+
+start_state = env.reset(state=start_state)
+end_state, total_reward, animation_data2 = run_episode(env, Q_optimal_agent, start_state, is_learning=False, is_rendering=True)
+
+start_state = env.reset(state=start_state)
+end_state, total_reward, animation_data3 = run_episode(env, random_agent, start_state, is_learning=False, is_rendering=True)
+render_epoch(animation_data1, interval=100)
+render_epoch(animation_data2, interval=100)
+render_epoch(animation_data3, interval=100)
+
+
+
+
+
+
 # Your code here for running the simulation and ploting the sum of immediate reward in each episode.
 
 # Init the environment and run Q-Learning & SARSA
